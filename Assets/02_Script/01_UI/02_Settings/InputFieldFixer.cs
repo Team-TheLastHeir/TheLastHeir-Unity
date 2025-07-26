@@ -9,11 +9,13 @@ public class InputFieldFixer : MonoBehaviour
     
     public void OnIDValueChanged(string value)
     {
+        Debug.Log("Id" + value);
         TogglePlaceholder(inputID, value);
     }
     
     public void OnPWValueChanged(string value)
     {
+        Debug.Log("PW" + value);  
         TogglePlaceholder(inputPW, value);
     }
 
