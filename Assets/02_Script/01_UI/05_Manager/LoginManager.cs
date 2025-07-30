@@ -11,11 +11,15 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordInput;
     public string nextSceneName;
 
-    private const string loginUrl = "https://831e612033c4.ngrok-free.app/api/accounts/login";
+    private const string loginUrl = "https://9bd278d01a3c.ngrok-free.app/api/accounts/login";
 
+    void Start()
+    {
+        Debug.Log($"[UIManager] login url: {loginUrl}");
+    }
     public void OnLoginButtonClicked()
     {
-        TMP_InputField usernameInput = GameObject.Find("InputID").GetComponent<TMP_InputField>();
+        TMP_InputField usernameInput = GameObject.Find("InputID").GetComponent<TMP_InputField>(); // 비활성된 상태에서 찾을 수 없기 때문에 Find 사용
         TMP_InputField passwordInput = GameObject.Find("InputPW").GetComponent<TMP_InputField>();
 
         if (usernameInput == null || passwordInput == null)
@@ -35,7 +39,8 @@ public class LoginManager : MonoBehaviour
     private IEnumerator TryLogin(string username, string password)
     {
         Debug.Log("API 요청 시작");
-        Debug.Log("로그인 시도" + username + " / " + password);
+        Debug.Log("로그인 시도: " + username + " / " + password);
+
         LoginRequest requestData = new LoginRequest
         {
             username = username,
@@ -49,8 +54,9 @@ public class LoginManager : MonoBehaviour
         request.uploadHandler = new UploadHandlerRaw(jsonBytes);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        
+
         yield return request.SendWebRequest();
+
         Debug.Log("API 요청 끝, 응답: " + request.downloadHandler.text);
 
         if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
@@ -70,4 +76,5 @@ public class LoginManager : MonoBehaviour
             Debug.LogWarning($"로그인 실패: {request.responseCode} - {request.downloadHandler.text} / {request.error}");
         }
     }
+
 }
