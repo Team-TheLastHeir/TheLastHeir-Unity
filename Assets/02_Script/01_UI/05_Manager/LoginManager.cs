@@ -11,7 +11,7 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordInput;
     public string nextSceneName;
 
-    private const string loginUrl = "https://9bd278d01a3c.ngrok-free.app/api/accounts/login";
+    private const string loginUrl = "https://9d566532f92c.ngrok-free.app/api/accounts/login";
 
     void Start()
     {
@@ -39,7 +39,7 @@ public class LoginManager : MonoBehaviour
     private IEnumerator TryLogin(string username, string password)
     {
         Debug.Log("API 요청 시작");
-        Debug.Log("로그인 시도: " + username + " / " + password);
+        Debug.Log($"로그인 시도: {username} / {password}");
 
         LoginRequest requestData = new LoginRequest
         {
@@ -55,15 +55,16 @@ public class LoginManager : MonoBehaviour
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
 
+        Debug.Log($"[LOGIN] 보낼 JSON: {json}");
+
         yield return request.SendWebRequest();
 
-        Debug.Log("API 요청 끝, 응답: " + request.downloadHandler.text);
+        Debug.Log($"API 요청 끝, 상태코드: {request.responseCode}");
+        Debug.Log($"응답: {request.downloadHandler.text}");
 
         if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
         {
-            string responseJson = request.downloadHandler.text;
-            Debug.Log("API 응답: " + responseJson);
-            TokenResponse token = JsonUtility.FromJson<TokenResponse>(responseJson);
+            TokenResponse token = JsonUtility.FromJson<TokenResponse>(request.downloadHandler.text);
 
             PlayerPrefs.SetString("jwt_token", token.token);
             PlayerPrefs.Save();
