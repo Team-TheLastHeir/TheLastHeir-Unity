@@ -11,7 +11,8 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordInput;
     public string nextSceneName;
 
-    private const string loginUrl = "https://9d566532f92c.ngrok-free.app/api/accounts/login";
+    [Header("API URL")]
+    [SerializeField] private string loginUrl;
 
     void Start()
     {
@@ -19,31 +20,31 @@ public class LoginManager : MonoBehaviour
     }
     public void OnLoginButtonClicked()
     {
-        TMP_InputField usernameInput = GameObject.Find("InputID").GetComponent<TMP_InputField>(); // 비활성된 상태에서 찾을 수 없기 때문에 Find 사용
+        TMP_InputField idInput = GameObject.Find("InputID").GetComponent<TMP_InputField>(); // 비활성된 상태에서 찾을 수 없기 때문에 Find 사용
         TMP_InputField passwordInput = GameObject.Find("InputPW").GetComponent<TMP_InputField>();
 
-        if (usernameInput == null || passwordInput == null)
+        if (idInput == null || passwordInput == null)
         {
             Debug.LogError("InputField를 찾을 수 없음");
             return;
         }
 
-        string username = usernameInput.text;
+        string id = idInput.text;
         string password = passwordInput.text;
         
-        Debug.Log($"로그인 정보: {username} / {password}");
+        Debug.Log($"로그인 정보: {id} / {password}");
 
-        StartCoroutine(TryLogin(username, password));
+        StartCoroutine(TryLogin(id, password));
     }
 
-    private IEnumerator TryLogin(string username, string password)
+    private IEnumerator TryLogin(string id, string password)
     {
         Debug.Log("API 요청 시작");
-        Debug.Log($"로그인 시도: {username} / {password}");
+        Debug.Log($"로그인 시도: {id} / {password}");
 
         LoginRequest requestData = new LoginRequest
         {
-            username = username,
+            username = id,
             password = password
         };
 
