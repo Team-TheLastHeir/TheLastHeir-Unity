@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuController : MonoBehaviour, IUIPanel
+    public class MainMenuController : MonoBehaviour, IUIPanel
 {
     [Header("Buttons")]
     [SerializeField] private Button startButton;
@@ -14,7 +14,6 @@ public class MainMenuController : MonoBehaviour, IUIPanel
     private void Awake()
     {
         // 버튼 클릭 이벤트
-        startButton.onClick.AddListener(OnStartButtonClicked);
         settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         exitButton.onClick.AddListener(OnExitButtonClicked);
     }
@@ -30,14 +29,7 @@ public class MainMenuController : MonoBehaviour, IUIPanel
     // 인터페이스
     public void Show() => gameObject.SetActive(true); // 표현 단축
     public void Hide() => gameObject.SetActive(false);
-
-    // Button: Start Game
-    private void OnStartButtonClicked()
-    {
-        Debug.Log("Start Button Clicked!");
-        uiManager.ShowPanel<StartSettingsController>(true);
-    }
-
+    
     // Button: Open Settings
     private void OnSettingsButtonClicked()
     {
