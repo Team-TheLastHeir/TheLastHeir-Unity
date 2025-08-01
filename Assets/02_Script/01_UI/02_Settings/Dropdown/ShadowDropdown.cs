@@ -3,47 +3,49 @@ using UnityEngine.UI;
 
 public class ShadowDropdown : MonoBehaviour
 {
-    public Dropdown shadowDropdown; 
-    public Shadow targetShadow; 
+    public Dropdown shadowDropdown;
+    public Light mainLight; 
 
     void Start()
     {
-        // Dropdown 옵션 초기화
-        shadowDropdown.ClearOptions();
-        shadowDropdown.AddOptions(new System.Collections.Generic.List<string> { "Ultra", "High", "Middle", "Low" });
-
-        // 초기 선택값 및 이벤트 연결
-        shadowDropdown.onValueChanged.AddListener(OnShadowDropdownChanged);
-
-        // 최초 적용
-        OnShadowDropdownChanged(shadowDropdown.value);
+        shadowDropdown.onValueChanged.AddListener(OnDropdownChanged);
+        int savedIndex = ShadowSettingManager.Instance != null ? ShadowSettingManager.Instance.ShadowLevelIndex : 0;
+        shadowDropdown.value = savedIndex;
+        OnDropdownChanged(savedIndex);
     }
 
-    void OnShadowDropdownChanged(int index)
+    void OnDropdownChanged(int index)
     {
+        if (ShadowSettingManager.Instance != null)
+            ShadowSettingManager.Instance.ShadowLevelIndex = index;
         switch (index)
         {
             case 0: // Ultra
-                ApplyShadow(new Color(0,0,0,0.4f), new Vector2(8, -8), 6);
+                SetShadowForAllObjects(true, true);
+                if (mainLight != null) mainLight.shadowStrength = 1.0f;
                 break;
             case 1: // High
-                ApplyShadow(new Color(0,0,0,0.3f), new Vector2(6, -6), 4);
+                SetShadowForAllObjects(true, true);
+                if (mainLight != null) mainLight.shadowStrength = 0.7f;
                 break;
             case 2: // Middle
-                ApplyShadow(new Color(0,0,0,0.2f), new Vector2(4, -4), 2);
+                SetShadowForAllObjects(true, true);
+                if (mainLight != null) mainLight.shadowStrength = 0.5f;
                 break;
             case 3: // Low
-                ApplyShadow(new Color(0,0,0,0.1f), new Vector2(2, -2), 1);
+                SetShadowForAllObjects(false, false);
+                if (mainLight != null) mainLight.shadowStrength = 0.2f;
                 break;
         }
     }
 
-    void ApplyShadow(Color color, Vector2 distance, float softness)
+    void SetShadowForAllObjects(bool cast, bool receive)
     {
-        if (targetShadow != null)
+        MeshRenderer[] renderers = FindObjectsOfType<MeshRenderer>();
+        foreach (var renderer in renderers)
         {
-            targetShadow.effectColor = color;
-            targetShadow.effectDistance = distance;
+            renderer.shadowCastingMode = cast ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderer.receiveShadows = receive;
         }
     }
 }
