@@ -28,7 +28,7 @@ namespace StarterAssets
             }
 
             _pitch = Mathf.Clamp(_pitch, _controller.BottomClamp, _controller.TopClamp);
-
+            Debug.Log(_pitch);
             _controller.CinemachineCameraTarget.transform.rotation =
                 Quaternion.Euler(_pitch + _controller.CameraAngleOverride, _yaw, 0f);
         }
