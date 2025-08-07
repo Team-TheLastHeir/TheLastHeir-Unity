@@ -1,23 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class LoginManager : MonoBehaviour
+public class ChangeSceneManager : MonoBehaviour
 {
-    public string nextSceneName;
-
-    // 이 함수는 버튼에 연결하세요.
-    public void OnLoginButtonClicked()
+    public void OnChangedScene(string sceneName)
     {
-        // 로그인 검증 로직 (임시로 항상 성공)
-        bool loginSuccess = true; // 서버통신으로 변경 예정
-        
-        if (loginSuccess)
-        {
-            SceneManager.LoadScene(nextSceneName);
-        }
-        else
-        {
-            Debug.Log("로그인 실패!");
-        }
+        SceneManager.LoadScene(sceneName);
     }
 }

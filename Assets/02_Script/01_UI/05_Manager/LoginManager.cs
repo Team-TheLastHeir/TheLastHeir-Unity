@@ -12,7 +12,7 @@ public class LoginManager : MonoBehaviour
     public string nextSceneName;
 
     [Header("API URL")]
-    [SerializeField] private string loginUrl;
+    public string loginUrl;
 
     void Start()
     {
@@ -71,6 +71,10 @@ public class LoginManager : MonoBehaviour
             PlayerPrefs.Save();
 
             Debug.Log("로그인 성공! 토큰: " + token.token);
+            // 토큰 저장
+            PlayerPrefs.SetString("username", token.token);
+            PlayerPrefs.Save();
+            
             SceneManager.LoadScene(nextSceneName);
         }
         else

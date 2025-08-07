@@ -14,7 +14,7 @@ public class ShadowDropdown : MonoBehaviour
         OnDropdownChanged(savedIndex);
     }
 
-    void OnDropdownChanged(int index)
+    public void OnDropdownChanged(int index)
     {
         if (ShadowSettingManager.Instance != null)
             ShadowSettingManager.Instance.ShadowLevelIndex = index;
@@ -37,6 +37,9 @@ public class ShadowDropdown : MonoBehaviour
                 if (mainLight != null) mainLight.shadowStrength = 0.2f;
                 break;
         }
+        
+        Debug.Log("현재 ShadowLevelIndex: " + ShadowSettingManager.Instance.ShadowLevelIndex);
+        Debug.Log("mainLight.shadowStrength: " + mainLight.shadowStrength);
     }
 
     void SetShadowForAllObjects(bool cast, bool receive)

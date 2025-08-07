@@ -34,5 +34,6 @@ public class ResolutionSelector : MonoBehaviour
         {
             Debug.LogWarning($"해상도 숫자 변환 실패: {option}");
         }
+        
     }
 }

@@ -18,6 +18,7 @@ public class UIFadeController : MonoBehaviour
 
     public void FadeIn(Action onComplete = null)
     {
+        Debug.Log("FadeIn");
         if (canvasGroup == null)
         {
             Debug.LogWarning("FadeIn 실패: CanvasGroup 없음");
