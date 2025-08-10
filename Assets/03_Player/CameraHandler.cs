@@ -25,6 +25,7 @@ namespace StarterAssets
                 float deltaTime = Time.deltaTime;
                 _yaw += _controller.Input.look.x * deltaTime * sensitivity;
                 _pitch += _controller.Input.look.y * deltaTime * sensitivity;
+                Debug.Log(_yaw, _pitch);
             }
 
             _pitch = Mathf.Clamp(_pitch, _controller.BottomClamp, _controller.TopClamp);
