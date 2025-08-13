@@ -8,6 +8,8 @@ public enum SettingType
     Shadow,
     Brightness,
     Texture,
+    FPS,
+    
 }
 
 public class SettingManager : MonoBehaviour
